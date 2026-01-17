@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blooket Auto Join</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    input { margin: 10px; padding: 10px; width: 220px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #status { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Blooket Auto Join</h1>
+
+  <input id="gameId" placeholder="Game ID">
+  <input id="name" placeholder="Nickname">
+  <br>
+  <button id="joinBtn">Join Game</button>
+  <div id="status"></div>
+
+  <script>
+    const joinBtn = document.getElementById("joinBtn");
+    const status = document.getElementById("status");
+
+    joinBtn.addEventListener("click", async () => {
+      const gameId = document.getElementById("gameId").value.trim();
+      const name = document.getElementById("name").value.trim();
+
+      if (!gameId || !name) {
+        status.textContent = "⚠️ Please enter both Game ID and Nickname!";
+        return;
+      }
+
+      status.textContent = "⏳ Joining game...";
+
+      try {
+        const resp = await fetch("/join", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ gameId, name })
+        });
+
+        const data = await resp.json();
+
+        if (resp.ok && data.success) {
+          status.textContent = `✅ Success! Joined game ${gameId} as ${name}`;
+        } else {
+          status.textContent = `❌ Error: ${data.error || JSON.stringify(data)}`;
+        }
+      } catch (err) {
+        status.textContent = `❌ Error: ${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
