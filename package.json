@@ -1,0 +1,16 @@
+{
+  "name": "blooket-proxy",
+  "version": "1.0.0",
+  "description": "Blooket auto-join bot with Puppeteer",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^23.3.0"
+  }
+}
